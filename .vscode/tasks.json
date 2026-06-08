@@ -1,0 +1,61 @@
+{
+    // === 编译任务配置文件 ===
+    // 这个文件才是真正决定你的代码“如何变成可执行程序”的地方。
+    // 当你按下 Cmd + Shift + B 编译时，VS Code 就是在逐字阅读这个剧本并执行。
+    "version": "2.0.0",
+    "tasks": [
+        {
+            // 这是一个在终端/命令行（shell）中执行的任务
+            "type": "shell",
+            // 任务的显示名称，你可以在运行任务列表中看到它
+            "label": "SplashKit: 一键编译当前文件",
+            
+            // 【核心命令】调用 clang++ 编译器来把源代码翻译成机器码
+            "command": "clang++",
+            
+            // 【编译参数列表】这是紧跟在 clang++ 后面的所有指令，是最关键的部分
+            "args": [
+                // 开启所有常见的警告信息，帮你发现潜在的错误（比如未使用的变量）
+                "-Wall",
+
+                // std::format 是 C++20 才有的标准库功能。
+                "-std=c++20",
+                //优化编译
+                "-O2",
+                
+                // 1. 【非常重要】告诉编译器：在编译时，去 include 文件夹里找我们写的头文件（utilities.h）
+                "-I${workspaceFolder}/include", 
+                
+                "${workspaceFolder}/src/*.cpp",
+                
+                
+                // -o 代表 Output（输出），指定编译后生成的程序要放在哪，叫什么名字。
+                "-o",
+                "${workspaceFolder}/bin/game", 
+                
+                // 5. -l 代表 Link（链接库），告诉编译器将 SplashKit 的核心库文件打包进最终的程序中，这样你的窗口和动画才能跑起来。
+                "-l",
+                "splashkit"
+            ],
+            // 任务执行时的额外选项
+            "options": {
+                // (Current Working Directory) 确保这整个编译命令是在你的 Programs 根目录这个“舞台”上启动执行的，这样相对路径才不会乱。
+                "cwd": "${workspaceFolder}"
+            },
+            // 这是一个正则匹配器，用来捕捉编译失败时的错误信息，并在下方的“问题”面板中展示给你看。
+            "problemMatcher": [
+                "$gcc"
+            ],
+            // 任务分组设置
+            "group": {
+                // 声明这是一个“构建(build)”类型的任务
+                "kind": "build",
+                // "isDefault": true 意味着这是你的默认构建任务。
+                // 当你按下 Cmd + Shift + B 时，电脑连问都不问，直接就按这个剧本开始干活了。
+                "isDefault": true
+            },
+            // 对这个任务的详细文字描述
+            "detail": "为包含 utilities 的 SplashKit 项目定制的编译任务"
+        }
+    ]
+}

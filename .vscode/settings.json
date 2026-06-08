@@ -1,0 +1,17 @@
+{
+    // === 工作区专属设置文件 ===
+    // 这里我们专门用来“对付”那个导致红色波浪线的罪魁祸首插件（C/C++ Clang Command Adapter - 作者 mitaki28）。
+    // 这个老插件在后台静默检查语法时，就像个瞎子，默认只会在当前 .cpp 文件所在的文件夹里找头文件。
+
+    // clang.cxxflags 代表你要传给后台检查工具的命令行参数。
+    "clang.cxxflags": [
+        // std::format 是 C++20 才有的标准库功能。
+        "-std=c++20",
+        // -I 是 Include（包含路径）的意思。
+        // 由于这个老插件不支持 ${workspaceFolder} 这种高级变量，我们只能在这里强行“写死”绝对路径。
+        // 这行代码的意思是：“喂！你在后台检查代码时，必须去这个绝对路径的文件夹里给我找 utilities.h！”
+        // 就是加了这句，它才终于找到了头文件，红色的波浪线也就随之消失了。
+        "-I/Users/lucian/Projects/FIT1045/H2_Programs/include"
+    ],
+    "C_Cpp.errorSquiggles": "enabled"
+}

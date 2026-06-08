@@ -1,0 +1,15 @@
+# Build output
+bin/
+
+# Runtime data
+logs/
+myeasylog.log
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Archives / submission docs
+*.zip
+FIT1045 H+1 Submission Template.docx
+H+1.pdf
